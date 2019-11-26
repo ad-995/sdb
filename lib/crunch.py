@@ -2,9 +2,13 @@ import json, hashlib
 from lib import domain_structure
 from time import gmtime, strftime
 
-def get_data(domain_data):
+def get_uid():
 	log_time=strftime("%d/%m/%y %H:%M:%S", gmtime())
-	# print(json.dumps(domain_data, indent=4, sort_keys=True))
+	uid = hashlib.md5(log_time.encode('utf-8')).hexdigest()
+	return uid
+
+def get_crtsh_data(domain_data):
+	log_time=strftime("%d/%m/%y %H:%M:%S", gmtime())
 	subdomains = []
 	source = domain_data[0]
 	json_blob = domain_data[1]
@@ -14,6 +18,25 @@ def get_data(domain_data):
 		if not name_value.startswith('*'):
 			if name_value not in subdomains:
 				subdomains.append(name_value)
-	identifer = hashlib.md5(log_time.encode('utf-8')).hexdigest()
-	domain = domain_structure.Domain(identifer,source,log_time,subdomains)
+	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
+	return domain
+
+def get_bufferoverrun_data(domain_data):
+	log_time=strftime("%d/%m/%y %H:%M:%S", gmtime())
+	subdomains = []
+	source = domain_data[0]
+	json_blob = domain_data[1]
+	list_blob = list(json_blob['FDNS_A'])
+	for i in list_blob:
+		if ',' in i:
+			if i.split(',')[0] not in subdomains:
+				subdomains.append(i.split(',')[0])
+
+			if i.split(',')[1] not in subdomains:
+				subdomains.append(i.split(',')[1])
+		else:
+			if i not in subdomains:
+				subdomains.append(i)
+
+	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
 	return domain
