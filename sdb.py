@@ -17,7 +17,7 @@ else:
 	db.init() # create the database file
 
 counter = 0
-interval = 30
+interval = 3
 
 logger.blue('Querying for subdomains every %s second(s)' % logger.BLUE(interval))
 

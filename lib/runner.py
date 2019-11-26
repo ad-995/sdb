@@ -6,6 +6,15 @@ from lib import arguments
 args = arguments.get_args()
 domain = args.domain
 
+def verify(crunched_data):
+	if crunched_data == None:
+		logger.red('sdb was unable to retrieve data, check the logs!')
+		return False
+	else:
+		logger.green('Successfully pulled data!')
+		return True
+
+
 def do_crtsh():
 	crtsh_api = crtsh.api() # create an instance of the crtsh class. isnt really required but it was just incase multiple domains were going to be added
 
@@ -13,9 +22,12 @@ def do_crtsh():
 
 	crunched_data = crunch.get_crtsh_data(domain_data)
 
-	db.insert(crunched_data)
+	if verify(crunched_data):
+		db.insert(crunched_data)
+		return crunched_data
+	else:
+		return False
 
-	return crunched_data
 
 def do_bufferoverrun():
 	bufferoverrun_api = bufferoverrun.api()
@@ -26,3 +38,8 @@ def do_bufferoverrun():
 
 	db.insert(crunched_data)
 
+	if verify(crunched_data):
+		db.insert(crunched_data)
+		return crunched_data
+	else:
+		return False

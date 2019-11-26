@@ -1,4 +1,5 @@
 import requests, json
+from lib import logger
 
 class api:
 
@@ -12,8 +13,9 @@ class api:
         response = requests.get(url, headers={'User-Agent': user_agent})
 
         if response.ok:
-	        content = response.content.decode('utf-8')
-	        data = json.loads(response.text)
-	        return ('crtsh',data)
+            logger.green('Got [%s] from %s' % (logger.GREEN(response.status_code),logger.GREEN(url)))
+            content = response.content.decode('utf-8')
+            data = json.loads(response.text)
+            return ('crtsh',data)
         else:
             return None

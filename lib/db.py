@@ -16,5 +16,6 @@ def init():
 
 def insert(domain_data):
 	db = init()
-
-	db.insert(vars(domain_data))
+	data = vars(domain_data)
+	logger.yellow('Adding %s to %s' % (logger.YELLOW(str(data)),logger.YELLOW(db_name)))
+	db.insert(data)
