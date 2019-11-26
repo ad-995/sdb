@@ -18,4 +18,8 @@ def insert(domain_data):
 	db = init()
 	data = vars(domain_data)
 	logger.yellow('Adding %s to %s' % (logger.YELLOW(str(data)),logger.YELLOW(db_name)))
-	db.insert(data)
+	try:
+		db.insert(data)
+	except Exception as e:
+		logger.red(e)
+		return None # this return code wont be checked anywhere, i just dont like leaving unclosed functions :)

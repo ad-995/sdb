@@ -21,13 +21,17 @@ interval = 3
 
 logger.blue('Querying for subdomains every %s second(s)' % logger.BLUE(interval))
 
-while True:
-	sleep(1)
-	counter += 1
-	if counter == interval:
-		logger.yellow('Checking %s' % 'crt.sh')
-		runner.do_crtsh()
+try:
+	while True:
+		sleep(1)
+		counter += 1
+		if counter == interval:
+			logger.yellow('Checking %s' % 'crt.sh')
+			runner.do_crtsh()
 
-		logger.yellow('Checking %s' % 'bufferover.run')
-		runner.do_bufferoverrun()
-		counter = 0
+			logger.yellow('Checking %s' % 'bufferover.run')
+			runner.do_bufferoverrun()
+			counter = 0
+except KeyboardInterrupt as e:
+	logger.red('CTRL+C Detected!')
+	quit()
