@@ -18,7 +18,7 @@ class api:
 				data = json.loads(response.text)
 				return ('dns.bufferover.run',data)
 			except Exception as e:
-				logger.red(e)
+				logger.red(str(e))
 				return None
 		else:
 			logger.red('Got [%s] from %s' % (logger.RED(response.status_code),logger.RED(url)))

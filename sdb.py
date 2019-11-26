@@ -3,9 +3,14 @@ from lib import arguments
 from lib import runner
 from lib import db
 from lib import logger
+from lib import banner
 from time import sleep
 
+VERSION='0.2'
+
 args = arguments.get_args() # this function returns the args object
+
+banner.header(VERSION)
 
 if args.domain == None:
 	print('Please supply a domain')

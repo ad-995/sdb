@@ -9,10 +9,8 @@ domain = args.domain
 
 def verify(data):
 	if data == None:
-		logger.red('sdb was unable to retrieve data, check the logs!')
 		return False
 	else:
-		logger.green('Successfully verified data!')
 		return True
 
 # Both api calls will return None if they failed to do something, this is so they can be verified with the above
@@ -25,6 +23,8 @@ def do_crtsh():
 	if not verify(domain_data):
 		logger.red('Failed to obtain data from %s' % logger.RED('crt.sh'))
 		return False
+	else:
+		logger.green('Successfully validated %s response' % logger.GREEN('crt.sh'))
 
 	crunched_data = crunch.get_crtsh_data(domain_data)
 
@@ -43,10 +43,10 @@ def do_bufferoverrun():
 	if not verify(domain_data):
 		logger.red('Failed to obtain data from %s' % logger.RED('bufferover.run'))
 		return False
+	else:
+		logger.green('Successfully validated %s response' % logger.GREEN('bufferover.run'))
 
 	crunched_data = crunch.get_bufferoverrun_data(domain_data)
-
-	db.insert(crunched_data)
 
 	if verify(crunched_data):
 		db.insert(crunched_data)
