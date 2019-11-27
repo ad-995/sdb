@@ -1,4 +1,4 @@
-from lib.scanners import crtsh, bufferoverrun
+from lib.scanners import crtsh, bufferoverrun, certspotter
 from lib import db
 from lib import crunch
 from lib import arguments
@@ -34,7 +34,6 @@ def do_crtsh():
 	else:
 		return False
 
-
 def do_bufferoverrun():
 	bufferoverrun_api = bufferoverrun.api()
 
@@ -47,6 +46,25 @@ def do_bufferoverrun():
 		logger.green('Successfully validated %s response' % logger.GREEN('bufferover.run'))
 
 	crunched_data = crunch.get_bufferoverrun_data(domain_data)
+
+	if verify(crunched_data):
+		db.insert(crunched_data)
+		return crunched_data
+	else:
+		return False
+
+def do_certspotter():
+	certspotter_api = certspotter.api()
+
+	domain_data = certspotter_api.search(domain)
+
+	if not verify(domain_data):
+		logger.red('Failed to obtain data from %s' % logger.RED('certspotter'))
+		return False
+	else:
+		logger.green('Successfully validated %s response' % logger.GREEN('certspotter'))
+
+	crunched_data = crunch.get_certspotter_data(domain_data)
 
 	if verify(crunched_data):
 		db.insert(crunched_data)

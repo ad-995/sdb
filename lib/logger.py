@@ -75,3 +75,9 @@ def yellow(string):
 	if args.silent == False:
 		print('['+log_time+']'+YELLOW(' >> ' )+string)
 	log_to_file(string)
+
+def timer(string):
+	string = str(string)
+	log_time=strftime("%d/%m/%y, %H:%M:%S", gmtime())
+	if args.silent == False:
+		print('['+log_time+']'+BLUE(' >> ' )+string,end='\r')

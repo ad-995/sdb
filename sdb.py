@@ -21,24 +21,27 @@ else:
 		db.db_name = args.name
 	db.init() # create the database file
 
-counter = 0
 interval = 30
+counter = interval
 
-logger.blue('Querying for subdomains every %s second(s)' % logger.BLUE(interval))
 
 try:
 	while True:
-		if counter == 0:
+		sleep(1)
+		counter -= 1
+		logger.timer('Querying in %s seconds(s)' % logger.BLUE(counter))
+		if counter <= 0:
 			logger.yellow('Checking %s' % 'crt.sh')
 			runner.do_crtsh()
 
 			logger.yellow('Checking %s' % 'bufferover.run')
 			runner.do_bufferoverrun()
-			sleep(1)
-			counter += 1
-			
-		if counter == interval:
-			counter = 0
+
+			logger.yellow('Checking %s' % 'certspotter')
+			runner.do_certspotter()
+			counter = interval
+
+	
 except KeyboardInterrupt as e:
 	logger.red('CTRL+C Detected!')
 	quit()

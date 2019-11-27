@@ -50,3 +50,15 @@ def get_bufferoverrun_data(domain_data):
 
 	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
 	return domain
+
+def get_certspotter_data(domain_data):
+	log_time=strftime("%d/%m/%y %H:%M:%S", gmtime())
+	subdomains = []
+	source = domain_data[0]
+	json_blob = domain_data[1]
+	for item in json_blob:
+		item_subdomains = item['dns_names']	
+		for subdomain in item_subdomains:
+			subdomains.append(subdomain)
+	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
+	return domain
