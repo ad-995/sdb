@@ -5,6 +5,8 @@ def get_args():
 	parser.add_argument("-d", "--domain", metavar="", help="Domain to monitor")
 	parser.add_argument("-n", "--name", metavar="", help="Name of the database file")
 	parser.add_argument("-s","--silent", action="store_true", help="Turn console output off")
+	parser.add_argument("-q","--query", action="store_true", help="Extract all subdomains")
+	parser.add_argument("--single", action="store_true", help="Run sdb once")
 	args = parser.parse_args()
 
 	if not any(vars(args).values()):

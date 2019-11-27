@@ -71,3 +71,13 @@ def do_certspotter():
 		return crunched_data
 	else:
 		return False
+
+def go():
+	logger.yellow('Checking %s' % 'crt.sh')
+	do_crtsh()
+
+	logger.yellow('Checking %s' % 'bufferover.run')
+	do_bufferoverrun()
+
+	logger.yellow('Checking %s' % 'certspotter')
+	do_certspotter()
