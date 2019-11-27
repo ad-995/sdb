@@ -21,7 +21,7 @@ else:
 		db.db_name = args.name
 	db.init() # create the database file
 
-interval = 30
+interval = args.interval
 counter = interval
 
 if not args.query:
