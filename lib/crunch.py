@@ -27,26 +27,26 @@ def get_bufferoverrun_data(domain_data):
 	subdomains = []
 	source = domain_data[0]
 	json_blob = domain_data[1]
+
 	try:
 		error = json_blob['Meta']['Errors'][1]
-	except Exception as e:
-		logger.red(e)
-		return None
-	if 'output limit reached!' in error:
-		logger.red('Maximum request reached for bufferover.run')
-		return None
-	else:
-		list_blob = list(json_blob['FDNS_A'])
-		for i in list_blob:
-			if ',' in i:
-				if i.split(',')[0] not in subdomains:
-					subdomains.append(i.split(',')[0])
+		if 'output limit reached!' in error:
+			logger.red('Maximum request reached for bufferover.run')
+			return None
+	except:
+		pass
+		
+	list_blob = list(json_blob['FDNS_A'])
+	for i in list_blob:
+		if ',' in i:
+			if i.split(',')[0] not in subdomains:
+				subdomains.append(i.split(',')[0])
 
-				if i.split(',')[1] not in subdomains:
-					subdomains.append(i.split(',')[1])
-			else:
-				if i not in subdomains:
-					subdomains.append(i)
+			if i.split(',')[1] not in subdomains:
+				subdomains.append(i.split(',')[1])
+		else:
+			if i not in subdomains:
+				subdomains.append(i)
 
-		domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
-		return domain
+	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
+	return domain

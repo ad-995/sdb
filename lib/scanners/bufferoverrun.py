@@ -9,7 +9,7 @@ class api:
 		try:
 			response = requests.get(url, headers={'User-Agent': user_agent})
 		except Exception as e:
-			logger.red(e)
+			logger.red('Got [%s] whilst requesting %s' % (logger.RED(str(e)),logger.RED(url)))
 			return None
 		if response.ok:
 			logger.green('Got [%s] from %s' % (logger.GREEN(response.status_code),logger.GREEN(url)))
@@ -18,7 +18,7 @@ class api:
 				data = json.loads(response.text)
 				return ('dns.bufferover.run',data)
 			except Exception as e:
-				logger.red(str(e))
+				logger.red('Got [%s] whilst loading data from %s' % (logger.RED(str(e)),logger.RED(url)))
 				return None
 		else:
 			logger.red('Got [%s] from %s' % (logger.RED(response.status_code),logger.RED(url)))

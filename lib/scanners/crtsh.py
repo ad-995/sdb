@@ -13,7 +13,7 @@ class api:
         try:
             response = requests.get(url, headers={'User-Agent': user_agent})
         except Exception as e:
-            logger.red(e)
+            logger.red('Got [%s] whilst requesting %s' % (logger.RED(str(e)),logger.RED(url)))
             return None
 
         if response.ok:
@@ -23,7 +23,7 @@ class api:
                 data = json.loads(response.text)
                 return ('crtsh',data)
             except Exception as e:
-                logger.red(e)
+                logger.red('Got [%s] whilst loading data from %s' % (logger.RED(str(e)),logger.RED(url)))
                 return None
         else:
             return None

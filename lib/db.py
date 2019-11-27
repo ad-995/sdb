@@ -21,5 +21,5 @@ def insert(domain_data):
 	try:
 		db.insert(data)
 	except Exception as e:
-		logger.red(e)
+		logger.red('Got [%s] whilst adding %s to %s' % (logger.RED(str(e)),logger.RED(data),logger.RED(db_name)))
 		return None # this return code wont be checked anywhere, i just dont like leaving unclosed functions :)
