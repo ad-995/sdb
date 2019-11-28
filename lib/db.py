@@ -1,4 +1,5 @@
 from lib import logger
+from lib import arguments
 from time import gmtime, strftime
 import json, os, hashlib
 
@@ -9,6 +10,8 @@ except Exception as e:
 	quit()
 
 db_name = str('subdomains.db')
+
+args = arguments.get_args()
 
 def init():
 	if not os.path.isfile(db_name):
@@ -55,7 +58,7 @@ def log_results(results_data):
 	wildcards = results_data[1]
 	uid = get_uid()
 	try:
-		filename = 'subdomains_%s.txt' % uid
+		filename = '%s_subdomains_%s.txt' % (args.domain,uid)
 		with open(filename,'w') as f:
 			logger.green('Writing subdomains to %s' % logger.GREEN(filename))
 			for subdomain in subdomains:
@@ -65,7 +68,7 @@ def log_results(results_data):
 		return False
 
 	try:
-		filename = 'wildcards_%s.txt' % uid
+		filename = '%s_wildcards_%s.txt' % (args.domain,uid)
 		logger.green('Writing wildcards_ to %s' % logger.GREEN(filename))
 		with open(filename,'w') as f:
 			for wildcard in wildcards:

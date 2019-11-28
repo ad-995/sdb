@@ -1,7 +1,10 @@
 import json, hashlib
 from lib import domain_structure
 from lib import logger
+from lib import arguments
 from time import gmtime, strftime
+
+args = arguments.get_args()
 
 def get_uid():
 	log_time=strftime("%d/%m/%y %H:%M:%S", gmtime())
@@ -18,7 +21,8 @@ def get_crtsh_data(domain_data):
 		name_value = item['name_value']
 		if not name_value.startswith('*'):
 			if name_value not in subdomains:
-				subdomains.append(name_value)
+				if args.domain in name_value:
+					subdomains.append(name_value)
 	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
 	return domain
 
@@ -46,7 +50,8 @@ def get_bufferoverrun_data(domain_data):
 				subdomains.append(i.split(',')[1])
 		else:
 			if i not in subdomains:
-				subdomains.append(i)
+				if args.domain in subdomain:
+					subdomains.append(i)
 
 	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
 	return domain
@@ -59,6 +64,7 @@ def get_certspotter_data(domain_data):
 	for item in json_blob:
 		item_subdomains = item['dns_names']	
 		for subdomain in item_subdomains:
-			subdomains.append(subdomain)
+			if args.domain in subdomain:
+				subdomains.append(subdomain)
 	domain = domain_structure.Domain(get_uid(),source,log_time,subdomains)
 	return domain
