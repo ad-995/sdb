@@ -13,7 +13,7 @@
 
 `sdb`,  `Subdomain Database`, is a Python applciation to query various APIs for DNS entries. It has the ability to be backgrounded and can query on any interval. The aim of this particular project is to be able to afk a bit of recon. There are several other techniques and queries to add, but as of now, this is fine for me.
 
-Thanks to [michaeljranaldo](https://github.com/michaelranaldo) for contributing!
+Thanks to [michaelranaldo](https://github.com/michaelranaldo) for contributing!
 
 ## Installing
 
