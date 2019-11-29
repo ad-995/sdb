@@ -4,16 +4,18 @@ from lib import runner
 from lib import db
 from lib import logger
 from lib import banner
+from lib import probe
 from time import sleep
 
-VERSION='0.4'
+VERSION='0.5'
 
 args = arguments.get_args() # this function returns the args object
 
-banner.header(VERSION)
+if not args.silent:
+	banner.header(VERSION)
 
 if args.domain == None:
-	print('Please supply a domain')
+	logger.red('Please supply a domain')
 	quit()
 else:
 	domain = args.domain
@@ -40,7 +42,17 @@ if not args.query:
 			quit()
 	else:
 		runner.go()
-		log_results = db.log_results(db.query())
+		subdomains,wildcards = db.query()
+
+		if args.probe:
+			logger.yellow('Running HTTP probe')
+			sleep(3)
+			probed = probe.do(subdomains,args.threads)
+
+		if args.probe:
+			log_results = db.log_results((subdomains,wildcards),probed)
+		else:
+			log_results = db.log_results((subdomains,wildcards),None)
 		quit()
 else:
 	log_results = db.log_results(db.query())

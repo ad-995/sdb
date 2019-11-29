@@ -52,11 +52,21 @@ def get_uid():
 	uid = hashlib.md5(log_time.encode('utf-8')).hexdigest()
 	return uid
 
-
-def log_results(results_data):
+def log_results(results_data,probed):
 	subdomains = results_data[0]
 	wildcards = results_data[1]
 	uid = get_uid()
+
+	if probed != None:
+		try:
+			filename = '%s_probed_%s.txt' % (args.domain,uid)
+			with open(filename,'w') as f:
+				logger.green('Writing wildcards to %s' % logger.GREEN(filename))
+				for subdomain in probed:
+					f.write(subdomain+'\n')
+		except Exception as e:
+			logger.red('Got [%s] whilst logging to %s' % (logger.RED(str(e)),logger.RED(filename)))
+			return False
 	try:
 		filename = '%s_subdomains_%s.txt' % (args.domain,uid)
 		with open(filename,'w') as f:
@@ -69,11 +79,11 @@ def log_results(results_data):
 
 	try:
 		filename = '%s_wildcards_%s.txt' % (args.domain,uid)
-		logger.green('Writing wildcards_ to %s' % logger.GREEN(filename))
+		logger.green('Writing wildcards to %s' % logger.GREEN(filename))
 		with open(filename,'w') as f:
 			for wildcard in wildcards:
 				f.write(wildcard+'\n')
 	except  Exception as e:
 		logger.red('Got [%s] whilst logging to %s' % (logger.RED(str(e)),logger.RED(filename)))
 		return False
-	logger.green('Done!')
+	return subdomains,wildcards
